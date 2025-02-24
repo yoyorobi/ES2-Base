@@ -23,13 +23,20 @@ public class ControleSousMarin : MonoBehaviour
     void OnPromener(InputValue directionBase){
         Vector2 direction = directionBase.Get<Vector2>() ;
         directionInput = new Vector3(0f, direction.x, direction.y)* _vitessePromenade;
-        
+    }
+    
+    void OnSprint(InputValue sprintInput) {
+    float sprintValue = sprintInput.Get<float>();
+    directionInput *= (1 + sprintValue);
+    _animator.SetFloat("SetSpeed", 1 + sprintValue);
     }
 
     void FixedUpdate(){
      
-       _rb.AddForce(directionInput, ForceMode.VelocityChange);
+        _rb.AddForce(directionInput, ForceMode.VelocityChange);
         _animator.SetFloat("Deplacement", _rb.velocity.magnitude);
-        
     }
+
+    
+
 }
